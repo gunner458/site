@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parcours NationsGlory - VIP_GUNNER</title>
+
+  <!-- Google Fonts & Bootstrap 5 + Bootstrap Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!--Favicon-->
+  <link rel="icon" type="image/png" href="./src/images/interserv.png" />
+
+  <style>
+    :root{
+      --rp-color:#00c6ff;
+      --staff-color:rgb(0, 198, 255);
+      --comm-color:#8f6bff;
+      --mafia-color:#ff9f1c;
+      --bg:#f0f4ff;
+      --glass:rgba(255,255,255,.65);
+      --sidebar-dark: #182444;
+      --sidebar-lastrank-bg: #131a2d;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Poppins",system-ui,sans-serif;
+      background:var(--bg);color:#1a1a1a;font-size:15px;line-height:1.5;
+      overflow-x:hidden;
+    }
+    h1{font-size:1.6rem;font-weight:600;margin-bottom:.5rem}
+
+    /* SIDEBAR HEADER ----------------------------------------------- */
+    .sidebar-header {
+      position:fixed;
+      left:0;top:0;bottom:0;
+      width:320px;
+      background:linear-gradient(135deg,var(--rp-color),#0072ff);
+      color:#fff;
+      padding:2.5rem 1rem 1rem 1rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      z-index:20;
+      box-shadow:2px 0 16px rgba(0,0,0,.08);
+      min-width:260px;
+      max-width:380px;
+      height:100vh;
+      text-align:center;
+    }
+    .sidebar-header .avatar{
+      width:90px;height:90px;border-radius:50%;object-fit:cover;
+      margin-bottom:1rem;border:3px solid rgba(255,255,255,.2);
+      display:block;
+      margin-left:auto; margin-right:auto;
+    }
+    .sidebar-header h1 { font-size:1.3rem; margin-bottom: .5rem; }
+    .sidebar-header p.pseudo { margin-bottom:0.8rem; font-size:1rem; }
+
+    .sidebar-header .sidebar-lastrank-list {
+      width:100%;
+      margin-bottom:1.2em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      align-items:center;
+    }
+    .sidebar-header .sidebar-lastrank-list h3 {
+      font-size:1.08rem;
+      font-weight:600;
+      margin-top:1.2em;
+      margin-bottom:.5em;
+      text-align:center;
+      color:#fff;
+      letter-spacing:0.5px;
+    }
+    .sidebar-header .sidebar-lastrank-list .role-card {
+      background: var(--sidebar-lastrank-bg);
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.06);
+      border-radius: 16px;
+      padding: .9em .6em;
+      margin: 0;
+      border: none;
+      color: #fff;
+      font-size: 1em;
+      justify-content: center;
+      align-items: center;
+      text-align: left;
+      min-width: 0;
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header .sidebar-lastrank-list .role-title,
+    .sidebar-header .sidebar-lastrank-list .role-content,
+    .sidebar-header .sidebar-lastrank-list .role-img,
+    .sidebar-header .sidebar-lastrank-list .role-icon {
+      font-size:0.98em;
+    }
+    .sidebar-header .sidebar-lastrank-list .badge-days {
+      background:rgba(0,0,0,.08);
+      color:#fff;
+      font-weight:500;
+      margin-left:.5em;
+      margin-top: .2em;
+      align-self: flex-end;
+    }
+
+    .sidebar-header .sidebar-footer {
+      margin-top:auto;
+      width:100%;
+      text-align:center;
+      padding-bottom:0.5rem;
+      font-size:.97rem;
+      color:rgba(255,255,255,.7);
+      font-weight:400;
+      letter-spacing:.2px;
+      border-radius:0;
+      background:none;
+    }
+    .sidebar-header::after{display:none;}
+
+    /* LAYOUT ------------------------------------------------------- */
+    .main-layout {
+      display:flex;
+      min-height:100vh;
+      max-width:1500px;
+      margin:0 auto;
+      background:#18203b;
+    }
+    .main-content {
+      flex:1;
+      display:flex;
+      flex-direction:row;
+      gap:2rem;
+      padding:2rem 1.5rem;
+      overflow-x:auto;
+      margin-left:320px; /* sidebar width */
+      width:calc(100vw - 320px);
+      min-width:0;
+      justify-content:initial;
+    }
+
+    @media (max-width: 600px) {
+      .main-layout {
+        flex-direction:column;
+        min-height:unset;
+        max-width:unset;
+      }
+      .sidebar-header {
+        position:static;
+        width:100vw;
+        min-width:unset;
+        max-width:unset;
+        height:auto;
+        padding:2rem 0 1.2rem 0;
+        border-radius:0 0 28px 28px;
+        box-shadow:0 2px 10px rgba(0,0,0,.10);
+      }
+      .main-content {
+        margin-left:0;
+        width:100vw;
+        flex-direction:column;
+        gap:1.2rem;
+        padding:1rem;
+        min-width:0;
+        overflow-x:unset;
+      }
+      .staff-col, .comm-col, .mafia-col, .other-col {
+        min-width:unset;
+        max-width:unset;
+      }
+    }
+
+    /* COLUMNS ------------------------------------------------------ */
+    .staff-col,.comm-col,.mafia-col,.other-col{
+      background:#202744;
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      padding:1rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.1);
+      border:1px solid rgba(255,255,255,.05);
+      min-width:350px;
+      flex:1 1 23%;
+      margin-bottom:0;
+      display:flex;
+      flex-direction:column;
+      max-height:calc(100vh - 3rem);
+      overflow-y:auto;
+    }
+    .staff-col>h2,.comm-col>h2,.mafia-col>h2,.other-col>h2{
+      text-align:center;margin-bottom:1.2rem;font-size:1.2rem;font-weight:600;
+    }
+    .staff-col>h2{color:var(--staff-color)}
+    .comm-col>h2{color:var(--comm-color)}
+    .mafia-col>h2{color:var(--mafia-color)}
+    .other-col>h2{color:#ff6b9d}
+
+    /* ROLE CARDS --------------------------------------------------- */
+    .role-card{
+      background:rgba(255,255,255,.07);
+      border-radius:12px;padding:.8rem;margin-bottom:.6rem;
+      display:flex;align-items:center;gap:.8rem;
+      border:1px solid rgba(0,0,0,.03);
+      transition:background .25s,box-shadow .25s;
+      font-size:0.98em;
+      min-width:0;
+      width:100%;
+    }
+    .staff-col .lastrank{
+      background:rgba(28, 172, 255, 0.09);box-shadow:0 0 8px rgba(28, 191, 255, 0.25);
+    }
+    .comm-col .lastrank{
+      background:rgba(143,107,255,.09);box-shadow:0 0 8px rgba(143,107,255,.25);
+    }
+    .mafia-col .lastrank{
+      background:rgba(107,255,168,.09);box-shadow:0 0 8px rgba(107,255,168,.25);
+    }
+
+
+    .role-icon{
+      flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+    }
+    .role-img{width:32px;height:32px;flex-shrink:0}
+    .role-img img{width:100%;height:100%;object-fit:contain;border-radius:6px}
+    .role-content{flex-grow:1;min-width:0}
+    .role-title{
+      font-weight:600;font-size:.95rem;margin-bottom:.2rem;
+      display:flex;align-items:center;gap:.4rem;
+      white-space:normal;
+      overflow:visible;
+      text-overflow:unset;
+      flex-wrap:wrap;
+    }
+    .role-title img.server-logo {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: .3em;
+      width: 18px;
+      height: 18px;
+    }
+    .role-dates{
+      font-size:.8rem;
+      color:#b5b9d6;
+      white-space:normal;
+      overflow:visible;
+      text-overflow:unset;
+      flex-wrap:wrap;
+    }
+    .badge-days{
+      margin-left:auto;font-size:.75rem;padding:.25rem .6rem;border-radius:10px;white-space:nowrap;
+    }
+    .staff-col .badge-days{background:rgba(28, 164, 255, 0.15);color:var(--staff-color)}
+    .comm-col .badge-days{background:rgba(143,107,255,.15);color:var(--comm-color)}
+    .mafia-col .badge-days{background:rgba(255, 208, 107, 0.15);color:var(--mafia-color)}
+    .staff-col .role-icon{color:var(--staff-color)}
+    .comm-col .role-icon{color:var(--comm-color)}
+    .mafia-col .role-icon{color:var(--mafia-color)}
+
+    @media (prefers-color-scheme:dark){
+      body{background:#0e152b;color:#e6e6e6}
+      .role-card,.staff-col,.comm-col,.mafia-col,.other-col{
+        background:rgba(30,45,75,.45);border-color:rgba(255,255,255,.1);
+      }
+      .role-dates{color:#aaa}
+      .staff-col .lastrank{background:rgba(255,159,28,.15)}
+      .comm-col .lastrank{background:rgba(143,107,255,.15)}
+      .mafia-col .lastrank{background:rgba(107,255,168,.15)}
+      .other-col .lastrank{background:rgba(255,107,157,.15)}
+      .sidebar-header .sidebar-lastrank-list .role-card {background:rgba(30,45,75,.9);}
+      .sidebar-header .sidebar-footer {color:rgba(255,255,255,.52);}
+    }
+
+    /* SCROLL ----------------------------- */
+    .main-content {
+      scrollbar-width:thin;
+      scrollbar-color:#00c6ff #f0f4ff;
+    }
+    .main-content::-webkit-scrollbar {
+      height:8px;
+      background:#f0f4ff;
+      border-radius:10px;
+    }
+    .main-content::-webkit-scrollbar-thumb {
+      background:#00c6ff;
+      border-radius:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-layout">
+    <!-- SIDEBAR HEADER -->
+    <aside class="sidebar-header">
+      <img src="https://skins.nationsglory.fr/face/VIP_GUNNER/3d/24" alt="Avatar" class="avatar">
+      <h1>Mon parcours sur NationsGlory</h1>
+      <p class="pseudo">VIP_GUNNER</p>
+      <div class="sidebar-lastrank-list"></div>
+      <div class="sidebar-footer">
+        Dernière MàJ : 29/12/2025
+      </div>
+    </aside>
+
+    <!-- CONTENT COLUMNS -->
+    <main class="main-content">
+      <!-- STAFF COLUMN -->
+      <section class="staff-col">
+        <h2>STAFF</h2>
+        <div class="role-card" data-start="2023-09-03" data-end="2025-01-20">
+          <div class="role-img"><img src="./src/images/Guide.png" alt="Guide"></div>
+          <div class="role-content">
+            <p class="role-title">Guide <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">03/09/2023 → 20/01/2025</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2025-01-20" data-end="2025-02-23">
+          <div class="role-img"><img src="./src/images/ModoTest.png" alt="Modérateur-Test"></div>
+          <div class="role-content">
+            <p class="role-title">Modérateur Test <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">20/01/2025 → 23/02/2025</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2025-02-23" data-end="2025-09-22">
+          <div class="role-img"><img src="./src/images/Modo.png" alt="Modérateur"></div>
+          <div class="role-content">
+            <p class="role-title">Modérateur Confirmé <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">23/02/2025 → 22/09/2025</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card lastrank" data-start="2025-09-22">
+          <div class="role-img"><img src="./src/images/ModoPlus.png" alt="Modérateur Plus"></div>
+          <div class="role-content">
+            <p class="role-title">Modérateur Plus <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">22/09/2025 → XX/XX/XXXX</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card">
+          <div class="role-img"><img src="./src/images/SuperModo.png" alt="Super-Modérateur"></div>
+          <div class="role-content">
+            <p class="role-title">Super-Modérateur <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">À venir</p>
+          </div>
+          <span class="badge-days">-</span>
+        </div>
+        <div class="role-card">
+          <div class="role-img"><img src="./src/images/Administrateur.png" alt="Administrateur"></div>
+          <div class="role-content">
+            <p class="role-title">Administrateur <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">À venir</p>
+          </div>
+          <span class="badge-days">-</span>
+        </div>
+      </section>
+
+      <!-- COMMUNICATION COLUMN -->
+      <section class="comm-col">
+        <h2>COMMUNICATION</h2>
+        <div class="role-card" data-start="2024-09-05" data-end="2024-11-12">
+          <i class="role-icon bi bi-journal-text"></i>
+          <div class="role-content">
+            <p class="role-title">Journaliste Test <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">05/09/2024 → 12/11/2024</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2024-11-12" data-end="2025-04-20">
+          <i class="role-icon bi bi-journal-richtext"></i>
+          <div class="role-content">
+            <p class="role-title">Journaliste <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">12/11/2024 → 20/04/2025</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2025-04-20" data-end="2025-10-31">
+          <i class="role-icon bi bi-book-half"></i>
+          <div class="role-content">
+            <p class="role-title">Rédacteur en Chef <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">20/04/2025 → 31/10/2025</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card lastrank" data-start="2025-10-31">
+          <i class="role-icon bi bi-megaphone-fill"></i>
+          <div class="role-content">
+            <p class="role-title">Manager Pôle Comm' <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">31/10/2025 → XX/XX/XXXX</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+      </section>
+
+      <!-- MAFIA/COALITION COLUMN -->
+      <section class="mafia-col">
+        <h2>MAFIA & COALITION</h2>
+        <div class="role-card" data-start="2023-04-16" data-end="2023-05-09">
+          <i class="role-icon bi bi-person-badge"></i>
+          <div class="role-content">
+            <p class="role-title">Recrue <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">16/04/2023 → 09/05/2023</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2023-05-09" data-end="2023-11-26">
+          <i class="role-icon bi bi-people-fill"></i>
+          <div class="role-content">
+            <p class="role-title">Mafieux <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">09/05/2023 → 26/11/2023</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2023-12-11" data-end="2024-02-18">
+          <i class="role-icon bi bi-shield-check"></i>
+          <div class="role-content">
+            <p class="role-title">Purificateur <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">11/12/2023 → 18/02/2024</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+        <div class="role-card" data-start="2024-02-18" data-end="2024-04-07">
+          <i class="role-icon bi bi-star-fill"></i>
+          <div class="role-content">
+            <p class="role-title">Émissaire <img src="./src/images/cyan.png" alt="Cyan" class="server-logo"></p>
+            <p class="role-dates">18/02/2024 → 07/04/2024</p>
+          </div>
+          <span class="badge-days"></span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script automatisé pour calculer les jours + afficher les grades actuels dans la sidebar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // Calcul automatique pour toutes les cards ayant data-start
+      document.querySelectorAll('.role-card[data-start]').forEach(card => {
+        const badge = card.querySelector('.badge-days');
+        const start = card.dataset.start;
+        let end = card.dataset.end;
+
+        // Cas où data-end n'est pas défini ou XX/XX/XXXX, on prend aujourd'hui
+        let endDate;
+        if (end && end !== "XX/XX/XXXX") {
+          endDate = new Date(end);
+        } else {
+          endDate = new Date();
+        }
+        const startDate = new Date(start);
+
+        if (badge && startDate instanceof Date && !isNaN(startDate)) {
+          const diff = Math.floor((endDate - startDate) / 86400000);
+          badge.textContent = `${diff} jours`;
+        }
+      });
+
+      // Affichage des grades actuels (.lastrank) dans la sidebar
+      const lastrankCards = document.querySelectorAll('.lastrank');
+      const sidebarList = document.querySelector('.sidebar-lastrank-list');
+      if (lastrankCards.length && sidebarList) {
+        sidebarList.innerHTML = '<h3>Grades actuels</h3>';
+        lastrankCards.forEach(card => {
+          const clone = card.cloneNode(true);
+          clone.classList.add('sidebar-lastrank');
+          sidebarList.appendChild(clone);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
